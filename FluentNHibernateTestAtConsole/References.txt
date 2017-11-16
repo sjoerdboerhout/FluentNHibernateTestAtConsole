@@ -1,0 +1,10 @@
+﻿https://github.com/jagregory/fluent-nhibernate
+
+https://gergroen.blogspot.nl/2011/11/nhibernate-getting-started-guide.html
+
+http://www.tsjensen.com/blog/post/2011/12/31/SQLite+And+Fluent+NHibernate+With+Code+First+In+C+Rewriting+The+OpenCollective+Wiki
+
+https://app.pluralsight.com/player?course=nhibernate
+
+https://stackoverflow.com/questions/39209164/nhibernate-with-mapping-by-code-and-a-sqlite-database-saving-many-to-one-parent
+
