@@ -80,9 +80,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\PropertyValue.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Entities\Device.cs" />
     <Compile Include="Entities\Property.cs" />
+    <Compile Include="Mappings\DeviceMap.cs" />
+    <Compile Include="Mappings\PropertyMap.cs" />
+    <Compile Include="Mappings\PropertyValueMap.cs" />
+    <Compile Include="Mappings\UserMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,9 +95,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Mappings\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="References.txt" />
   </ItemGroup>

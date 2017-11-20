@@ -1,11 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
+using FluentNHibernate.Mapping;
 
 namespace FluentNHibernateTestAtConsole.Entities
 {
   public class PropertyValue
   {
-    public virtual Guid Id { get; protected set; }
+    public virtual Guid Guid { get; protected set; }
+
+    public virtual Guid Property { get; set; }
 
     public virtual Guid Parent { get; set; }
 
