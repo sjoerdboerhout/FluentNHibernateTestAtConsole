@@ -7,7 +7,7 @@ namespace FluentNHibernateTestAtConsole.Mappings
   {
     public PropertyMap()
     {
-      Table("properties");
+      Table("property");
 
       Id(x => x.Guid)
         .Column("uuid")
@@ -30,10 +30,8 @@ namespace FluentNHibernateTestAtConsole.Mappings
       //  .Cascade.All()
       //  .Table("tblPropertyValues");
 
-      HasManyToMany(x => x.Values)
-        .Table("propertyvalues")
-        .ParentKeyColumn("property_uuid")
-        .ChildKeyColumn("propertyvalue_uuid")
+      HasMany(x => x.Values)
+        .KeyColumn("property_uuid")
         .Cascade.All();
     }
   }

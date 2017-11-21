@@ -17,8 +17,18 @@ namespace FluentNHibernateTestAtConsole.Entities
 
     public virtual DateTime LastModified { get; set; }
 
-
     public virtual IList<PropertyValue> Values { get; set; } = new List<PropertyValue>();
+
+    public virtual string Value
+    {
+      get
+      {
+        if (Values?.Count > 0)
+          return Values.OrderByDescending(s => s.LastModified).First().Value;
+          
+        return "";
+      }
+    }
 
     public virtual void AddValue(PropertyValue propertyValue)
     {
@@ -27,25 +37,21 @@ namespace FluentNHibernateTestAtConsole.Entities
 
     public override string ToString()
     {
-      return string.Format("\n-UUID: {0}\n-Name: {1}\n-Value count: {2}\n-Last modified: {3}\n",
+      string values = "";
+      foreach (var value in Values)
+      {
+        values += "-- " + value + "\n";
+      }
+
+      values = values.Trim();
+
+      return string.Format("\n-UUID: {0}\n-Name: {1}\n-Value: {2}\n-Value count: {3}\n-Values: \n{4}\n-Last modified: {5}\n",
         Guid,
         Name,
+        Value,
         Values.Count,
+        values,
         LastModified);
     }
-
-
-    /*
-    public string Value
-    {
-      get
-      {
-        if (Values.Count > 0)
-          return Values[0].Value;
-        else
-          return "";
-      }
-    }
-    */
   }
 }

@@ -59,14 +59,20 @@ namespace FluentNHibernateTestAtConsole
               Name = "X",
               LastModified = DateTime.Now
             };
-            PropertyValue propValue = new PropertyValue()
+            property.AddValue(new PropertyValue()
             {
-              //Parent = property.Guid,
+              Parent = property.Guid,
+              Property = property.Guid,
+              LastModified = DateTime.Now.AddMinutes(-1),
+              Value = "Y"
+            });
+            property.AddValue(new PropertyValue()
+            {
+              Parent = property.Guid,
               Property = property.Guid,
               LastModified = DateTime.Now,
-              Value = "Y"
-            };
-            property.AddValue(propValue);
+              Value = "Z"
+            });
             session.SaveOrUpdate(property);
             Console.WriteLine("Save property: " + property);
 
@@ -90,7 +96,7 @@ namespace FluentNHibernateTestAtConsole
 
             var devices = (from device in session.Query<Device>()
                         select device)
-              .OrderBy(x => x.LastModified).ToList(); ;
+              .OrderBy(x => x.LastModified).ToList();
             foreach (var device in devices)
             {
               Console.WriteLine("Device: {0}", device);
@@ -134,8 +140,8 @@ namespace FluentNHibernateTestAtConsole
     {
       try
       {
-        //if (File.Exists(DatabaseFilePath))
-        //  File.Delete(DatabaseFilePath);
+        if (File.Exists(DatabaseFilePath))
+          File.Delete(DatabaseFilePath);
 
         //new SchemaUpdate(config)
         //  .Execute(true, true);

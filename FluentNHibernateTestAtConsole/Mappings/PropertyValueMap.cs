@@ -14,9 +14,9 @@ namespace FluentNHibernateTestAtConsole.Mappings
         .GeneratedBy.GuidComb()
         .Not.Nullable();
 
-      Map(x => x.Property)
-        .Column("property_uuid")
-        .Not.Nullable();
+      //Map(x => x.Property)
+      //  .Column("property_uuid")
+      //  .Not.Nullable();
 
       Map(x => x.Parent)
         .Column("parent_uuid")
