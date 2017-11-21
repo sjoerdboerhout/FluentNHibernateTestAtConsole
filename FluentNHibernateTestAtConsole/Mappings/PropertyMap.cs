@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Conventions.Inspections;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
+using FluentNHibernateTestAtConsole.Entities;
 
-namespace FluentNHibernateTestAtConsole.Entities
+namespace FluentNHibernateTestAtConsole.Mappings
 {
   public class PropertyMap : ClassMap<Property>
   {
     public PropertyMap()
     {
-      Table("tblProperties");
+      Table("properties");
 
       Id(x => x.Guid)
         .Column("uuid")
+        .GeneratedBy.GuidComb()
         .Not.Nullable();
 
       Map(x => x.Name)
@@ -26,13 +22,19 @@ namespace FluentNHibernateTestAtConsole.Entities
         .Column("lastmodified")
         .Not.Nullable();
 
-      Map(x => x.Value)
-        .Column("value")
-        .Not.Nullable();
+      //Map(x => x.Value)
+      //  .Column("value")
+      //  .Not.Nullable();
 
       //HasMany<PropertyValue>(x => x.Values)
-      //  .Cascade.All();
+      //  .Cascade.All()
+      //  .Table("tblPropertyValues");
 
+      HasManyToMany(x => x.Values)
+        .Table("propertyvalues")
+        .ParentKeyColumn("property_uuid")
+        .ChildKeyColumn("propertyvalue_uuid")
+        .Cascade.All();
     }
   }
 }

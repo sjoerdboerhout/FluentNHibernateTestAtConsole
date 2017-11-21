@@ -21,5 +21,12 @@ namespace FluentNHibernateTestAtConsole.Entities
                             LastModified,
                             Properties.Count);
     }
+
+    //public override string ToString()
+    //{
+    //  return string.Format("\n-UUID: {0}\n-Last modified: {1}\n",
+    //                        Guid,
+    //                        LastModified);
+    //}
   }
 }

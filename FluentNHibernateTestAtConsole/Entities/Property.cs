@@ -13,9 +13,27 @@ namespace FluentNHibernateTestAtConsole.Entities
 
     public virtual string Name { get; set; }
 
-    public virtual string Value { get; set; }
+    //public virtual PropertyValue Value { get; set; }
 
     public virtual DateTime LastModified { get; set; }
+
+
+    public virtual IList<PropertyValue> Values { get; set; } = new List<PropertyValue>();
+
+    public virtual void AddValue(PropertyValue propertyValue)
+    {
+      Values?.Add(propertyValue);
+    }
+
+    public override string ToString()
+    {
+      return string.Format("\n-UUID: {0}\n-Name: {1}\n-Value count: {2}\n-Last modified: {3}\n",
+        Guid,
+        Name,
+        Values.Count,
+        LastModified);
+    }
+
 
     /*
     public string Value
@@ -29,16 +47,5 @@ namespace FluentNHibernateTestAtConsole.Entities
       }
     }
     */
-
-    //public virtual List<PropertyValue> Values { get; set; }
-
-    public override string ToString()
-    {
-      return string.Format("\n-UUID: {0}\n-Name: {1}\n-Value: {2}\n-Last modified: {3}\n",
-        Guid,
-        Name,
-        Value,
-        LastModified);
-    }
   }
 }

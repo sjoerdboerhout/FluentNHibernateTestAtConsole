@@ -50,16 +50,23 @@ namespace FluentNHibernateTestAtConsole
               Name = "X",
               LastModified = DateTime.Now
             };
-            session.SaveOrUpdate(device);
-            Console.WriteLine("Save user: " + device);
+            //session.SaveOrUpdate(device);
+            Console.WriteLine("Save device: " + device);
 
 
             Property property = new Property()
             {
               Name = "X",
-              Value = "Y",
               LastModified = DateTime.Now
             };
+            PropertyValue propValue = new PropertyValue()
+            {
+              //Parent = property.Guid,
+              Property = property.Guid,
+              LastModified = DateTime.Now,
+              Value = "Y"
+            };
+            property.AddValue(propValue);
             session.SaveOrUpdate(property);
             Console.WriteLine("Save property: " + property);
 
@@ -68,24 +75,30 @@ namespace FluentNHibernateTestAtConsole
             Console.WriteLine("Transaction completed.");
           }
 
+          session.Flush();
+
           using (var transaction = session.BeginTransaction())
           {
-            var users = from user in session.Query<User>()
-                        select user;
+            var users = (from user in session.Query<User>()
+                        select user)
+              .OrderBy( x => x.LastModified).ToList();
+
             foreach (var user in users)
             {
               Console.WriteLine("User: {0}", user);
             }
 
-            var devices = from device in session.Query<Device>()
-                        select device;
+            var devices = (from device in session.Query<Device>()
+                        select device)
+              .OrderBy(x => x.LastModified).ToList(); ;
             foreach (var device in devices)
             {
               Console.WriteLine("Device: {0}", device);
             }
 
-            var properties = from property in session.Query<Property>()
-                          select property;
+            var properties = (from property in session.Query<Property>()
+                          select property)
+              .OrderBy(x => x.Name).ToList();
             foreach (var property in properties)
             {
               Console.WriteLine("Property: {0}", property);
@@ -121,13 +134,16 @@ namespace FluentNHibernateTestAtConsole
     {
       try
       {
-        if (File.Exists(DatabaseFilePath))
-          File.Delete(DatabaseFilePath);
+        //if (File.Exists(DatabaseFilePath))
+        //  File.Delete(DatabaseFilePath);
+
+        //new SchemaUpdate(config)
+        //  .Execute(true, true);
 
         // this NHibernate tool takes a configuration (with mapping info in)
         // and exports a database schema from it
         new SchemaExport(config)
-            .Create(true, true);
+          .Create(true, true);
       }
       catch (Exception e)
       {

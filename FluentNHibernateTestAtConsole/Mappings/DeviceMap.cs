@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
+using FluentNHibernateTestAtConsole.Entities;
 
-namespace FluentNHibernateTestAtConsole.Entities
+namespace FluentNHibernateTestAtConsole.Mappings
 {
   public class DeviceMap : ClassMap<Device>
   {
     public DeviceMap()
     {
-      Table("tblDevice");
+      Table("device");
 
       Id(x => x.Guid)
         .Column("uuid")
@@ -23,9 +22,13 @@ namespace FluentNHibernateTestAtConsole.Entities
         .Column("lastmodified")
         .Not.Nullable();
 
-      //HasManyToMany(x => x.Properties)
-      //     .Cascade.All()
-      //     .Table("DeviceProperties");
+      HasManyToMany(x => x.Properties)
+        .Cascade.All()
+        .Fetch.Join()
+        .Table("property_device")
+        .ParentKeyColumn("property_id")
+        .ChildKeyColumn("device_id")
+        .LazyLoad();
     }
   }
 }

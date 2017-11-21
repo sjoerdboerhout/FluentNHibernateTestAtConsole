@@ -1,22 +1,23 @@
-﻿using System;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
+using FluentNHibernateTestAtConsole.Entities;
 
-namespace FluentNHibernateTestAtConsole.Entities
+namespace FluentNHibernateTestAtConsole.Mappings
 {
   public class PropertyValueMap : ClassMap<PropertyValue>
   {
     public PropertyValueMap()
     {
-      Table("tblPropertyValues");
+      Table("property_value");
 
       Id(x => x.Guid)
         .Column("uuid")
+        .GeneratedBy.GuidComb()
         .Not.Nullable();
-      
-      //Map(x => x.Property)
-      //  .Column("property_uuid")
-      //  .Not.Nullable();
-      
+
+      Map(x => x.Property)
+        .Column("property_uuid")
+        .Not.Nullable();
+
       Map(x => x.Parent)
         .Column("parent_uuid")
         .Not.Nullable();

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentNHibernate.Conventions.Inspections;
-using FluentNHibernate.Mapping;
+﻿using FluentNHibernate.Mapping;
+using FluentNHibernateTestAtConsole.Entities;
 
-namespace FluentNHibernateTestAtConsole.Entities
+namespace FluentNHibernateTestAtConsole.Mappings
 {
   public class UserMap : ClassMap<User>
   {
     public UserMap()
     {
-      Table("tblUser");
+      Table("user");
 
       Id(x => x.Guid)
         .Column("uuid")
@@ -24,8 +19,12 @@ namespace FluentNHibernateTestAtConsole.Entities
         .Not.Nullable();
 
       //HasManyToMany(x => x.Properties)
-      //     .Cascade.All()
-      //     .Table("UserProperties");
+      //  .Cascade.All()
+      //  .Fetch.Join()
+      //  .Table("property_user")
+      //  .ParentKeyColumn("property_id")
+      //  .ChildKeyColumn("user_id")
+      //  .LazyLoad();
     }
   }
 }
