@@ -13,13 +13,13 @@ namespace FluentNHibernateTestAtConsole.Entities
 
     public virtual DateTime LastModified { get; set; }
 
-    //public virtual List<Property> Properties { get; set; } = new List<Property>();
+    public virtual List<Property> Properties { get; set; } = new List<Property>();
 
-    //public virtual Property AddProperty(Property property)
-    //{
-    //  Properties.Add(property);
-    //  return property;
-    //}
+    public virtual Property AddProperty(Property property)
+    {
+      Properties.Add(property);
+      return property;
+    }
 
     //public override string ToString()
     //{

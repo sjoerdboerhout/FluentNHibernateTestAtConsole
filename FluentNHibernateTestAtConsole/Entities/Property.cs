@@ -24,11 +24,18 @@ namespace FluentNHibernateTestAtConsole.Entities
       get
       {
         if (Values?.Count > 0)
-          return Values.OrderByDescending(s => s.LastModified).First().Value;
-          
+          return Values.OrderBy(s => s.LastModified).First().Value;
+        
         return "";
       }
     }
+
+    //public virtual void AddValue(string value, Guid parent)
+    //{
+    //  PropertyValue propertyValue = new PropertyValue();
+    //  propertyValue.SetValue(value, parent);
+    //  Values?.Add(propertyValue);
+    //}
 
     public virtual void AddValue(PropertyValue propertyValue)
     {

@@ -8,10 +8,18 @@ namespace FluentNHibernateTestAtConsole.Entities
     public virtual Guid Guid { get; protected set; }
 
     public virtual Guid Property { get; set; }
+    //public virtual Guid PropertyId { get; set; }
 
     public virtual Guid Parent { get; set; }
 
     public virtual string Value { get; set; }
+
+    public virtual PropertyValue SetValue(string value, Guid parent)
+    {
+      this.Parent = parent;
+      Value = value;
+      return this;
+    }
 
     public virtual DateTime LastModified { get; set; }
 

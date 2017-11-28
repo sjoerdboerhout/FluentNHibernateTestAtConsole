@@ -1,15 +1,17 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using FluentNHibernate.Automapping;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using FluentNHibernateTestAtConsole.Entities;
 using NHibernate;
 using NHibernate.Driver;
+using NHibernate.Linq;
 using NHibernate.Tool.hbm2ddl;
 using Configuration = NHibernate.Cfg.Configuration;
 
@@ -36,24 +38,6 @@ namespace FluentNHibernateTestAtConsole
           {
             Console.WriteLine("Ready to execute a query!");
 
-
-            User user = new User()
-            {
-              LastModified = DateTime.Now
-            };
-            session.SaveOrUpdate(user);
-            Console.WriteLine("Save user: " + user);
-
-
-            Device device = new Device()
-            {
-              Name = "X",
-              LastModified = DateTime.Now
-            };
-            //session.SaveOrUpdate(device);
-            Console.WriteLine("Save device: " + device);
-
-
             Property property = new Property()
             {
               Name = "X",
@@ -75,6 +59,23 @@ namespace FluentNHibernateTestAtConsole
             });
             session.SaveOrUpdate(property);
             Console.WriteLine("Save property: " + property);
+
+            User user = new User()
+            {
+              LastModified = DateTime.Now
+            };
+            //user.AddProperty(property);
+            session.SaveOrUpdate(user);
+            Console.WriteLine("Save user: " + user);
+
+
+            Device device = new Device()
+            {
+              Name = "X",
+              LastModified = DateTime.Now
+            };
+//            session.SaveOrUpdate(device);
+            Console.WriteLine("Save device: " + device);
 
 
             transaction.Commit();
@@ -126,13 +127,23 @@ namespace FluentNHibernateTestAtConsole
     {
       return Fluently.Configure()
           .Database(SQLiteConfiguration.Standard
+              //.InMemory()
               .UsingFile(databasePath)
               .ShowSql)
           .Mappings(m =>
+          //m.AutoMappings
+          //  .Add(AutoMap.AssemblyOf<Property>())
+          //  .Add(AutoMap.AssemblyOf<PropertyValue>())
+          //  .Add(AutoMap.AssemblyOf<Device>())
+          //  .Add(AutoMap.AssemblyOf<User>()))
           m.FluentMappings.
             AddFromAssembly(Assembly.GetExecutingAssembly()))
 
         .ExposeConfiguration(BuildSchema)
+#if DEBUG
+        .Diagnostics(d => d.Enable())
+        .Diagnostics(d => d.OutputToConsole())
+#endif
         .BuildSessionFactory();
     }
 
@@ -143,18 +154,20 @@ namespace FluentNHibernateTestAtConsole
         if (File.Exists(DatabaseFilePath))
           File.Delete(DatabaseFilePath);
 
+        // Only update scheme
         //new SchemaUpdate(config)
         //  .Execute(true, true);
 
-        // this NHibernate tool takes a configuration (with mapping info in)
-        // and exports a database schema from it
+        // Drop tables and create a new scheme
         new SchemaExport(config)
           .Create(true, true);
       }
       catch (Exception e)
       {
-        Console.WriteLine(e);
+        Console.WriteLine(e.Message);
+        Console.WriteLine(e.StackTrace);
       }
     }
   }
 }
+

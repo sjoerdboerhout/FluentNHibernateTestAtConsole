@@ -29,6 +29,12 @@ namespace FluentNHibernateTestAtConsole.Mappings
         .ParentKeyColumn("property_id")
         .ChildKeyColumn("device_id")
         .LazyLoad();
+
+      //HasMany(x => x.Properties)
+      //  .KeyColumn("property_uuid")
+      //  .Cascade.All()
+      //  .Fetch.Join()
+      //  .LazyLoad();
     }
   }
 }
